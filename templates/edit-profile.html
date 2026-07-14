@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - AI Crop Disease Detector</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-light">
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-nav">
+                <div class="brand">🌱 CropAI</div>
+                <nav>
+                    <a href="{{ url_for('dashboard') }}"><i class="fas fa-th-large"></i> Dashboard</a>
+                    <a href="/profile" class="active"><i class="fas fa-leaf"></i>Profile</a>
+                    <a href="/history"><i class="fas fa-history"></i> Analysis History</a>
+                </nav>
+            </div>
+            <div class="logout-container">
+                <a href="{{ url_for('logout') }}" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <h2>Edit Profile</h2>
+                <a href="/profile" class="btn btn-outline-secondary fw-bold">Cancel</a>
+            </header>
+
+            <div class="card small-center" style="max-width: 500px; margin: 0 auto; padding: 40px;">
+                <h3 class="mb-4 text-center fw-bold text-success">Update Personal Information</h3>
+                <p class="text-muted text-center mb-4">Email: {{ user['email'] }} <br><small>(Cannot be changed)</small></p>
+                <form action="/update-profile" method="POST">
+                    <div class="form-group mb-3">
+                        <label class="form-label fw-bold">Username</label>
+                        <input type="text" name="username" class="form-control form-control-lg" value="{{ user['username'] or '' }}" placeholder="Enter display name" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label fw-bold">Age</label>
+                        <input type="number" name="age" class="form-control form-control-lg" value="{{ user['age'] or '' }}" placeholder="Enter your age">
+                    </div>
+                    <div class="form-group mb-4">
+                        <label class="form-label fw-bold">Location (City/District)</label>
+                        <input type="text" name="location" class="form-control form-control-lg" value="{{ user['location'] or '' }}" placeholder="e.g. Nalgonda, Telangana">
+                    </div>
+                    <button type="submit" class="btn btn-success w-100 py-3 fs-5 fw-bold">Update Profile</button>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

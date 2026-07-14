@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - AI Crop Disease Detector</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-light">
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-nav">
+                <div class="brand">🌱 CropAI</div>
+                <nav>
+                    <a href="{{ url_for('dashboard') }}"><i class="fas fa-th-large"></i> Dashboard</a>
+                    <a href="/profile" class="active"><i class="fas fa-leaf"></i> Profile</a>
+                    <a href="/history"><i class="fas fa-history"></i> Analysis History</a>
+                </nav>
+            </div>
+            <div class="logout-container">
+                <a href="{{ url_for('logout') }}" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="profile-header d-flex justify-content-between align-items-center mb-5">
+                <h1 class="fw-bold">My Profile</h1>
+                <a href="/edit-profile" class="btn btn-success px-4 py-2 rounded-pill">
+                    <i class="bi bi-pencil-square me-2"></i> Edit Profile
+                </a>
+            </header>
+
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="card profile-card text-center p-4">
+                        <div class="avatar-box mb-3">
+                            <i class="bi bi-person-circle text-success" style="font-size: 4rem;"></i>
+                        </div>
+                        <h3 class="fw-bold">{{ user['username'] or 'Name' }}</h3>
+                        <p class="text-muted small">{{ user['email'] }}</p>
+                        <hr>
+                        <div class="location-tag">
+                            <i class="bi bi-geo-alt-fill me-2"></i> {{ user['location'] or 'Telangana' }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="card stats-card p-4">
+                        <h4 class="fw-bold mb-4">Account Statistics</h4>
+                        <div class="stat-line d-flex justify-content-between py-3 border-bottom">
+                            <span class="text-secondary">Total Detections</span>
+                            <span class="fw-bold fs-5">{{ total_count }}</span>
+                        </div>
+                        <div class="stat-line d-flex justify-content-between py-3 border-bottom">
+                            <span class="text-secondary">Account Member Since</span>
+                            <span class="fw-bold">{{ user['created_at'] or 'Just Now' }}</span>
+                        </div>
+                        <div class="stat-line d-flex justify-content-between py-3">
+                            <span class="text-secondary">Farming Location</span>
+                            <span class="fw-bold">{{ user['location'] or 'Telangana' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

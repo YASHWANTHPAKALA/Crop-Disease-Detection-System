@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - AI Crop Disease Detector</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { 
+            background-color: #d1e7dd; 
+            font-family: 'Segoe UI', sans-serif; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .signup-card {
+            background: #ffffff;
+            border-radius: 25px;
+            width: 95%;
+            max-width: 500px; /* Matched to Login card width */
+            padding: 45px;    /* Spacious padding */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 { 
+            color: #198754; 
+            font-size: 2.8rem; /* Large, clear header */
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+        .sub-text {
+            font-size: 1.1rem;
+            color: #6c757d;
+            margin-bottom: 30px;
+        }
+        .form-label {
+            display: block;
+            text-align: left;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 8px;
+        }
+        .form-control-lg {
+            height: 55px; /* Taller, clickable inputs */
+            font-size: 1.1rem;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #e0e0e0;
+        }
+        .form-control-lg:focus {
+            border-color: #198754;
+            box-shadow: none;
+        }
+        .btn-success {
+            background-color: #198754;
+            border: none;
+            padding: 16px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 12px;
+            width: 100%;
+            margin-top: 10px;
+            transition: 0.3s ease;
+        }
+        .btn-success:hover {
+            background-color: #146c43;
+            transform: translateY(-2px);
+        }
+        .login-link {
+            margin-top: 25px;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="signup-card shadow-lg">
+        <h1>Create Account</h1>
+        <p class="sub-text">Join our smart farming community</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form action="/signup" method="POST">
+            <label class="form-label">Full Name</label>
+            <input type="text" name="fullname" class="form-control form-control-lg" placeholder="e.g. Yashwanth" required>
+
+            <label class="form-label">Email Address</label>
+            <input type="email" name="email" class="form-control form-control-lg" placeholder="name@example.com" required>
+
+            <label class="form-label">Password</label>
+            <input type="password" name="password" class="form-control form-control-lg" placeholder="Create a secure password" required>
+
+            <button type="submit" class="btn btn-success shadow-sm">Create Account</button>
+
+            <div class="login-link text-muted">
+                Already have an account? 
+                <a href="/login" class="text-success fw-bold text-decoration-none">Login</a>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

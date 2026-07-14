@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - AI Crop Disease Detector</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Added FontAwesome for the new sidebar icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-light">
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-nav">
+                <div class="brand">🌱 CropAI</div>
+                <nav>
+                    <a href="/dashboard" class="active"><i class="fas fa-th-large"></i> Dashboard</a>
+                    <a href="/profile"><i class="fas fa-user-circle"></i> Profile</a>
+                    <a href="/history"><i class="fas fa-history"></i> Analysis History</a>
+                </nav>
+            </div>
+            <div class="logout-container">
+                <a href="/logout" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="welcome-header">
+                <h1>Welcome, {{ user['username'] or 'Farmer' }}</h1>
+            </header>
+            
+            <section class="dashboard-grid">
+                <div class="card">
+                    <h2 style="font-size: 1.8rem; margin-top: 0;"><i class="fas fa-camera"></i> New Analysis</h2>
+                    <p style="color: var(--text-muted); font-size: 1.2rem;">Select a photo of the crop leaf for instant AI diagnosis.</p>
+
+                    <div class="drop-zone" onclick="document.getElementById('imageInput').click()">
+                        <input type="file" id="imageInput" hidden onchange="previewImage(this)">
+                        
+                        <div id="uploadPlaceholder">
+                            <i class="fas fa-cloud-upload-alt" style="font-size: 60px; color: var(--accent); margin-bottom: 20px;"></i><br>
+                            <button class="btn-select">Select Photo</button>
+                        </div>
+                        
+                        <img id="imagePreview" style="display:none;" class="preview-img">
+                    </div>
+
+                    <button class="btn-analyze" onclick="analyzeCrop()">
+                        <i class="fas fa-search-plus"></i> Analyze Problem
+                    </button>
+                </div>
+
+                <div class="card result-card" id="resultCard" style="display:none;">
+                    <div class="result-header">
+                        <h3>AI Diagnostic Report</h3>
+                        <span id="statusBadge" class="badge">Detected</span>
+                    </div>
+                    <div class="result-stats">
+                        <div class="stat">
+                            <label>Crop Name</label>
+                            <h4 id="resItem">Loading...</h4>
+                        </div>
+                        <div class="stat">
+                            <label>Disease</label>
+                            <h4 id="resDisease" class="text-danger">Loading...</h4>
+                        </div>
+                    </div>
+                    <div class="analysis-box">
+                        <label><i class="fas fa-info-circle"></i> Reason & Solution</label>
+                        <p id="resReason">Upload an image to see details...</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+    // Auto-preview the image when the user selects a file and hide the placeholder
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                const placeholder = document.getElementById('uploadPlaceholder');
+                const preview = document.getElementById('imagePreview');
+                
+                placeholder.style.opacity = '0';
+                setTimeout(() => {
+                    placeholder.style.display = 'none';
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    preview.style.opacity = '0';
+                    setTimeout(() => preview.style.opacity = '1', 50);
+                }, 300);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    async function analyzeCrop() {
+        const fileInput = document.getElementById('imageInput'); // Ensure your input has id="imageInput"
+        if (!fileInput.files[0]) {
+            alert("Please select a leaf image first!");
+            return;
+        }
+
+        // Show a loading state
+        const btn = document.querySelector('button[onclick="analyzeCrop()"]');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> AI is Thinking...';
+        btn.disabled = true;
+
+        const formData = new FormData();
+        formData.append('image', fileInput.files[0]);
+
+        try {
+            const response = await fetch('/predict', { 
+                method: 'POST', 
+                body: formData 
+            });
+            
+            const data = await response.json();
+
+            if (data.error) {
+                alert("Error: " + data.error);
+            } else {
+                // Show the new result card and fill data
+                document.getElementById('resultCard').style.display = 'block';
+                document.getElementById('resItem').innerText = data.item;
+                document.getElementById('resDisease').innerText = data.disease;
+                document.getElementById('resReason').innerText = data.Reason || data.reason;
+            }
+        } catch (error) {
+            console.error("Analysis Failed:", error);
+            alert("Could not connect to the server.");
+        } finally {
+            // Reset button
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    }
+    </script>
+</body>
+</html>

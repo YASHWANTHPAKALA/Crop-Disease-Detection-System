@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Crop Intelligence | Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <style>
+        :root { 
+            --primary: #2e7d32;      /* Nature Green */
+            --primary-light: #e8f5e9;
+            --accent: #10b981;       /* AI Emerald */
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --glass: rgba(255, 255, 255, 0.8);
+        }
+
+        body { 
+            background-color: #ffffff; 
+            color: var(--text-dark); 
+            font-family: 'Inter', sans-serif; 
+            font-size: 20px; /* Increased base font size for readability */
+            line-height: 1.6;
+        }
+
+        /* --- Smooth Navigation --- */
+        .navbar { 
+            background: var(--glass) !important; 
+            backdrop-filter: blur(15px); 
+            border-bottom: 1px solid #f1f5f9; 
+            padding: 20px 0;
+        }
+        .navbar-brand { color: var(--primary) !important; font-size: 1.8rem !important; }
+
+        /* --- Hero Section: Airy & Modern --- */
+        .hero-section { 
+            padding: 140px 0; 
+            background: radial-gradient(circle at top right, var(--primary-light), #ffffff); 
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Soft animated glow effect */
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: -10%; right: -5%;
+            width: 500px; height: 500px;
+            background: rgba(46, 125, 50, 0.08);
+            filter: blur(100px);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        h1.display-3 { 
+            font-size: 4.2rem; /* Ultra bold and large headers */
+            font-weight: 800; 
+            letter-spacing: -2px;
+            color: var(--text-dark);
+            line-height: 1.1;
+        }
+
+        .text-gradient { 
+            background: linear-gradient(135deg, var(--primary), var(--accent)); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+        }
+
+        /* --- Interactive Feature Cards --- */
+        .feature-card { 
+            background: #ffffff; 
+            border: 1px solid #f1f5f9; 
+            border-radius: 30px; 
+            padding: 50px 40px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            height: 100%;
+        }
+
+        .feature-card:hover { 
+            transform: translateY(-15px); 
+            box-shadow: 0 30px 60px rgba(46, 125, 50, 0.1); 
+            border-color: var(--primary-light);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+
+        /* --- Premium Pill Buttons --- */
+        .btn-success { 
+            background: var(--primary); 
+            border: none;
+            padding: 18px 45px; 
+            border-radius: 50px; 
+            font-weight: 700; 
+            font-size: 1.1rem;
+            box-shadow: 0 10px 25px rgba(46, 125, 50, 0.2);
+            transition: 0.3s ease;
+        }
+
+        .btn-success:hover { 
+            background: #1b5e20; 
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 15px 35px rgba(46, 125, 50, 0.3);
+        }
+
+        .btn-outline-dark { 
+            border: 2px solid #e2e8f0;
+            padding: 16px 35px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-outline-dark:hover {
+            background: #f8fafc;
+            border-color: var(--text-dark);
+            color: var(--text-dark);
+        }
+
+        footer { background: #f8fafc; padding: 60px 0; border-top: 1px solid #edf2f7; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">🌱 CropAI</a>
+            <div class="d-flex align-items-center">
+                <a href="/login" class="btn btn-link text-dark text-decoration-none fw-bold me-4">Login</a>
+                <a href="/signup" class="btn btn-success">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-section">
+        <div class="container position-relative" style="z-index: 1;">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <span class="badge bg-white text-success shadow-sm px-3 py-2 mb-4 rounded-pill border">
+                        <i class="bi bi-stars me-2"></i>98.5% Detection Accuracy
+                    </span>
+                    <h1 class="display-3 mb-4">Protect Your Harvest with <span class="text-gradient">AI Intelligence</span></h1>
+                    <p class="text-muted mb-5 fs-4">Join 5,000+ farmers using instant ResNet-18 analysis to identify crop diseases and save their yields.</p>
+                    <div class="d-flex flex-wrap gap-4">
+                        <a href="/signup" class="btn btn-success">Analyze Your Crop Now</a>
+                        <a href="#features" class="btn btn-outline-dark">See how it works →</a>
+                    </div>
+                </div>
+                <div class="col-lg-5 d-none d-lg-block text-center">
+                    <div class="position-relative">
+                        <i class="bi bi-shield-shaded" style="font-size: 14rem; color: var(--primary); opacity: 0.05;"></i>
+                        <div class="position-absolute top-50 start-50 translate-middle">
+                             <i class="bi bi-patch-check-fill text-success" style="font-size: 6rem; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="container py-5 my-5">
+        <div class="text-center mb-5 pb-4">
+            <h2 class="display-5 fw-bold mb-3">Advanced Precision Features</h2>
+            <p class="text-muted fs-5">Designed specifically for modern agriculture and high-yield farming.</p>
+        </div>
+        <div class="row g-5">
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon"><i class="bi bi-lightning-charge-fill"></i></div>
+                    <h4 class="fw-bold mb-3">Instant Diagnosis</h4>
+                    <p class="text-muted">Get expert results in under 2 seconds using our optimized AI vision engine.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon"><i class="bi bi-graph-up-arrow"></i></div>
+                    <h4 class="fw-bold mb-3">ResNet-18 Power</h4>
+                    <p class="text-muted">Trained on 50,000+ high-res images for precise disease identification.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon"><i class="bi bi-journal-check"></i></div>
+                    <h4 class="fw-bold mb-3">Expert Treatment</h4>
+                    <p class="text-muted">Every scan includes scientific reasons and specific fertilizer suggestions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container text-center">
+            <div class="mb-4">
+                <span class="fs-4 fw-bold text-success">🌱 CropAI</span>
+            </div>
+            <p class="text-muted mb-0">© 2026 AI Crop Intelligence | Team 109 UVPCE Ganpat University</p>
+        </div>
+    </footer>
+
+</body>
+</html>

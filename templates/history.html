@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis History - AI Crop Disease Detector</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-light">
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-nav">
+                <div class="brand">🌱 CropAI</div>
+                <nav>
+                    <a href="{{ url_for('dashboard') }}"><i class="fas fa-th-large"></i> Dashboard</a>
+                    <a href="/profile"><i class="fas fa-leaf"></i> Profile</a>
+                    <a href="/history" class="active"><i class="fas fa-history"></i> Analysis History</a>
+                </nav>
+            </div>
+            <div class="logout-container">
+                <a href="{{ url_for('logout') }}" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div>
+                    <h2>Analysis History</h2>
+                    <p class="text-muted">Search through {{ history|length }} saved reports</p>
+                </div>
+                <form action="{{ url_for('clear_all_history') }}" method="POST" onsubmit="return confirm('Delete everything?');">
+                    <button type="submit" class="btn-outline-danger"><i class="fas fa-trash-sweep"></i> Clear All</button>
+                </form>
+            </header>
+
+            <div class="stats-row">
+                <div class="stat-card">
+                    <span class="stat-label">Total Scans</span>
+                    <span class="stat-value">{{ history|length }}</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Last Scan</span>
+                    <span class="stat-value" style="font-size: 14px;">{{ history[0]['crop_type'] if history else 'None' }}</span>
+                </div>
+            </div>
+
+            <div class="search-container card">
+                <i class="fas fa-search"></i>
+                <input type="text" id="historySearch" placeholder="Search by crop name or disease..." onkeyup="filterHistory()">
+            </div>
+
+            <div class="card no-padding">
+                <table class="modern-table" id="historyTable">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable(0)">Date <i class="fas fa-sort"></i></th>
+                            <th onclick="sortTable(1)">Crop Name <i class="fas fa-sort"></i></th>
+                            <th>Disease Detected</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in history %}
+                        <tr>
+                            <td class="col-date">{{ row['timestamp'] }}</td>
+                            <td class="col-crop"><strong>{{ row['crop_type'] }}</strong></td>
+                            <td class="col-disease"><span class="disease-tag">{{ row['disease'] }}</span></td>
+                            <td class="text-end">
+                                <form action="{{ url_for('delete_history', id=row['id']) }}" method="POST">
+                                    <button type="submit" class="btn-delete-small" title="Delete this record"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Filter table based on search input
+        function filterHistory() {
+            let input = document.getElementById("historySearch");
+            let filter = input.value.toUpperCase();
+            let table = document.getElementById("historyTable");
+            let tr = table.getElementsByTagName("tr");
+
+            for (let i = 1; i < tr.length; i++) {
+                let tdCrop = tr[i].getElementsByClassName("col-crop")[0];
+                let tdDisease = tr[i].getElementsByClassName("col-disease")[0];
+                
+                if (tdCrop || tdDisease) {
+                    let txtValue = (tdCrop.textContent || tdCrop.innerText) + 
+                                   (tdDisease.textContent || tdDisease.innerText);
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        // Sort table columns
+        function sortTable(n) {
+            let table = document.getElementById("historyTable");
+            let rows = Array.from(table.rows).slice(1);
+            let dir = table.getAttribute("data-sort-dir") === "asc" ? -1 : 1;
+            table.setAttribute("data-sort-dir", dir === 1 ? "asc" : "desc");
+
+            rows.sort((a, b) => {
+                let aCol = a.cells[n].innerText.trim();
+                let bCol = b.cells[n].innerText.trim();
+                return aCol.localeCompare(bCol) * dir;
+            });
+            rows.forEach(row => table.tBodies[0].appendChild(row));
+        }
+    </script>
+</body>
+</html>
