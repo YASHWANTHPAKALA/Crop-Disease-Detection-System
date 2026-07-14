@@ -36,7 +36,7 @@
             <section class="dashboard-grid">
                 <div class="card">
                     <h2 style="font-size: 1.8rem; margin-top: 0;"><i class="fas fa-camera"></i> New Analysis</h2>
-                    <p style="color: var(--text-muted); font-size: 1.2rem;">Select a photo of the crop leaf for instant AI diagnosis.</p>
+                    <p style="color: var(--text-muted); font-size: 1.2rem;">Upload a crop leaf image to detect diseases and view treatment recommendations.</p>
 
                     <div class="drop-zone" onclick="document.getElementById('imageInput').click()">
                         <input type="file" id="imageInput" hidden onchange="previewImage(this)">
@@ -50,13 +50,13 @@
                     </div>
 
                     <button class="btn-analyze" onclick="analyzeCrop()">
-                        <i class="fas fa-search-plus"></i> Analyze Problem
+                        <i class="fas fa-search-plus"></i> Detect Disease
                     </button>
                 </div>
 
                 <div class="card result-card" id="resultCard" style="display:none;">
                     <div class="result-header">
-                        <h3>AI Diagnostic Report</h3>
+                        <h3>Crop Disease Report</h3>
                         <span id="statusBadge" class="badge">Detected</span>
                     </div>
                     <div class="result-stats">
@@ -70,7 +70,7 @@
                         </div>
                     </div>
                     <div class="analysis-box">
-                        <label><i class="fas fa-info-circle"></i> Reason & Solution</label>
+                        <label><i class="fas fa-info-circle"></i> Cause & Treatment</label>
                         <p id="resReason">Upload an image to see details...</p>
                     </div>
                 </div>
